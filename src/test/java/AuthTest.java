@@ -12,7 +12,7 @@ public class AuthTest {
         open("https://github.com/");
         $("[href='/login']").click();
         $("[id='login_field']").sendKeys("LyaylyaMiftakhova");
-        $("[id='password']").sendKeys("2206marsL");
+        $("[id='password']").sendKeys("12345");
         $(".js-sign-in-button").click();
         $(".Header").shouldBe(Condition.visible);
         $("[aria-label='View profile and more']").click();
