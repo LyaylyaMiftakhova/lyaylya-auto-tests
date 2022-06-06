@@ -1,4 +1,7 @@
 import com.codeborne.selenide.Condition;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -6,7 +9,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
+import static io.qameta.allure.Allure.step;
 
+@Owner("LyaylyaMiftakhova")
+@Feature("Авторизация")
 public class AuthTest {
 
     @BeforeEach
@@ -17,30 +23,31 @@ public class AuthTest {
     }
 
     @Test
-    @DisplayName("Авторизация и переход в профиль")
+    @DisplayName("Успешная авторизация и переход в профиль")
     public void shouldAuthorizeTest() {
-        open("https://github.com/");
-        $("[href='/login']").click();
-        $("[id='login_field']").sendKeys("LyaylyaMiftakhova");
-        $("[id='password']").sendKeys("12345");
-        $(".js-sign-in-button").click();
-        $(".Header").shouldBe(Condition.visible);
-        $("[aria-label='View profile and more']").click();
-        $(byText("Your profile")).click();
-        $(byText("training-repository")).shouldBe(Condition.visible);
-        TestPages.mainPage.loginInput()
+        step("Заполнить данные логина и пароля и нажать кнопку авторизации", () -> {
+            TestPages.mainPage.loginInput()
                 .sendKeys("LyaylyaMiftakhova");
-        TestPages.mainPage.passwordInput()
-                        .sendKeys("11111");
-        TestPages.mainPage.singInButton()
+            TestPages.mainPage.passwordInput()
+                        .sendKeys("5Gset1Qn");
+            TestPages.mainPage.singInButton()
                         .click();
-        TestPages.mainPage.header()
+        });
+        step("Проверить, что появилась шапка страницы", () -> {
+            TestPages.mainPage.header()
                         .shouldBe(Condition.visible);
-        TestPages.mainPage.dropdownButton()
-                        .click();
-        $(byText("Your profile"))
-                        .click();
-        $(byText("training-repository"))
+        });
+        step("Кликнуть по кнопке выпадающего списка", () -> {
+                TestPages.mainPage.dropdownButton()
+                    .click();
+        });
+        step("Перейти в 'Your profile'", () -> {
+                $(byText("Your profile"))
+                    .click();
+        });
+        step("Проверить, что отображается название репозитория 'training-repository'", () -> {
+            $(byText("training-repository"))
                         .shouldBe(Condition.visible);
-    }
+        });
+        }
 }
