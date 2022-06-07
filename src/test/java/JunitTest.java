@@ -33,10 +33,9 @@ public class JunitTest {
         step("Кликнуть по кнопке выпадающего списка", () ->
                 TestPages.junitPage.dropdownBranches()
                         .click());
-        step("Перейти в ветку 'fixtures'", () ->
+        step("Перейти в ветку 'fixtures' и проверить, что ветка корректная", () -> {
                 TestPages.junitPage.fixturesBranches()
-                        .click());
-        step("Проверить, что в наименовании ветки присутствует текст 'fixtures'", () -> {
+                        .click();
         TestPages.junitPage.nameFixturesBranches()
                 .shouldHave(text("fixtures"));
         });
@@ -47,15 +46,12 @@ public class JunitTest {
     @MethodSource("positiveChecks")
     @ParameterizedTest(name = "{displayName} {0}")
     public void positiveSearchChecksTest(String type, String searchData, String releaseName){
-        step("Перейти в релизы репозитория 'junit4'", () -> {
+        step("Перейти в релизы репозитория 'junit4' и проверить, что открылась нужная страница", () -> {
             TestPages.junitPage.releasesLink()
                 .click();
-        });
-        step("Проверить, что в переключателе присуствует 'Releases'", () -> {
             TestPages.junitPage.nameReleasesSwitch()
                 .shouldHave(text("Releases"));
         });
-
         step("В поле поиска ввести данные для поиска и нажать ENTER", () -> {
             TestPages.junitPage.searchInput()
                 .sendKeys(searchData + Keys.ENTER);

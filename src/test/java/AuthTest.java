@@ -25,15 +25,13 @@ public class AuthTest {
     @Test
     @DisplayName("Успешная авторизация и переход в профиль")
     public void shouldAuthorizeTest() {
-        step("Заполнить данные логина и пароля и нажать кнопку авторизации", () -> {
+        step("Авторизоваться с корректными данными", () -> {
             TestPages.mainPage.loginInput()
                 .sendKeys("LyaylyaMiftakhova");
             TestPages.mainPage.passwordInput()
                         .sendKeys("5Gset1Qn");
             TestPages.mainPage.singInButton()
                         .click();
-        });
-        step("Проверить, что появилась шапка страницы", () -> {
             TestPages.mainPage.header()
                         .shouldBe(Condition.visible);
         });
@@ -41,11 +39,9 @@ public class AuthTest {
                 TestPages.mainPage.dropdownButton()
                     .click();
         });
-        step("Перейти в 'Your profile'", () -> {
+        step("Перейти в 'Your profile' и проверить, что отображается название репозитория 'training-repository'", () -> {
                 $(byText("Your profile"))
                     .click();
-        });
-        step("Проверить, что отображается название репозитория 'training-repository'", () -> {
             $(byText("training-repository"))
                         .shouldBe(Condition.visible);
         });
